@@ -2,7 +2,7 @@
 <suite name="Ideario Suite">
     <parameter name="browser" value="firefox" />
     <parameter name="url" value="http://localhost:3000" />
-    <!-- <test name="GetStartedTests">
+    <test name="GetStartedTests">
         <groups>
             <run>
                 <include name="GetStartedTests" />
@@ -13,11 +13,11 @@
         </classes>
     </test>
     <test name="SignUpTests">
-        <parameter name="firstName" value="test"/>
-        <parameter name="lastName" value="user"/>
-        <parameter name="username" value="testuser"/>
-        <parameter name="password" value="testpass8765"/>
-        <parameter name="existingUsername" value="testuser122"/>
+        <parameter name="firstName" value="test" />
+        <parameter name="lastName" value="user" />
+        <parameter name="username" value="testuserabc" />
+        <parameter name="password" value="testpass8765" />
+        <parameter name="existingUsername" value="testuser122" />
         <groups>
             <run>
                 <include name="SignUpTests" />
@@ -28,10 +28,10 @@
         </classes>
     </test>
     <test name="LoginTests">
-        <parameter name="username" value="testuser"/>
-        <parameter name="password" value="testpass8765"/>
-        <parameter name="invalidUsername" value="somethinginvalid"/>
-        <parameter name="invalidPassword" value="testpass122"/>
+        <parameter name="username" value="testuserabc" />
+        <parameter name="password" value="testpass8765" />
+        <parameter name="invalidUsername" value="somethinginvalid" />
+        <parameter name="invalidPassword" value="testpass122" />
         <groups>
             <run>
                 <include name="LoginTests" />
@@ -40,27 +40,28 @@
         <classes>
             <class name="ideario.AuthenticationTest" />
         </classes>
-    </test> -->
-    <!-- <test name="ModeToggleTest">
+    </test>
+    <test name="ModeToggleTest">
         <classes>
-            <class name="ideario.ModeToggleTest" >
+            <class name="ideario.ModeToggleTest">
                 <methods>
                     <include name="checkIfToggleMenuIsDisplayed" />
-                    <include name="checkLightDarkModeButton"/>
+                    <include name="checkLightDarkModeButton" />
                 </methods>
             </class>
         </classes>
-    </test> -->
+    </test>
     <test name="PageFunctionalityTest">
-        <parameter name="username" value="uddeepta"/>
-        <parameter name="password" value="uddeepta"/>
+        <parameter name="username" value="uddeepta" />
+        <parameter name="password" value="uddeepta" />
+        <parameter name="searchText" value="Quantum Computing"></parameter>
+        <groups>
+            <run>
+                <include name="PageFunctionalityTests" />
+            </run>
+        </groups>
         <classes>
-            <class name="ideario.PageFunctionalityTest">
-                <methods>
-                    <include name="addNoteUsingCreateANote"/>
-                    <include name="addNoteUsingAddAPageButton"/>
-                </methods>
-            </class>
+            <class name="ideario.PageFunctionalityTest" />
         </classes>
     </test>
 </suite>
