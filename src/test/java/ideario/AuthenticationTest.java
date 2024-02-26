@@ -172,8 +172,7 @@ public class AuthenticationTest extends BaseTestClass{
             helper.enterText("input[name='identifier']", username);
             helper.clickButton(".cl-formButtonPrimary");
     
-            helper.isElementDisplayed(By.cssSelector("input[name='password']"));
-            helper.enterText("input[name='password']", invalidPassword);
+            helper.enterTextAfterWait(By.cssSelector("input[name='password']"), invalidPassword);
             
             helper.clickButton(".cl-formButtonPrimary");
     
@@ -193,8 +192,7 @@ public class AuthenticationTest extends BaseTestClass{
         helper.enterText("input[name='identifier']", username);
         helper.clickButton(".cl-formButtonPrimary");
 
-        helper.isElementDisplayed(By.cssSelector("input[name='password']"));
-        helper.enterText("input[name='password']", password);
+        helper.enterTextAfterWait(By.cssSelector("input[name='password']"), password);
         
         helper.clickButton(".cl-formButtonPrimary");
     }

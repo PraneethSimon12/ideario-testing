@@ -41,12 +41,24 @@
             <class name="ideario.AuthenticationTest" />
         </classes>
     </test> -->
-    <test name="ModeToggleTest">
+    <!-- <test name="ModeToggleTest">
         <classes>
             <class name="ideario.ModeToggleTest" >
                 <methods>
                     <include name="checkIfToggleMenuIsDisplayed" />
                     <include name="checkLightDarkModeButton"/>
+                </methods>
+            </class>
+        </classes>
+    </test> -->
+    <test name="PageFunctionalityTest">
+        <parameter name="username" value="uddeepta"/>
+        <parameter name="password" value="uddeepta"/>
+        <classes>
+            <class name="ideario.PageFunctionalityTest">
+                <methods>
+                    <include name="addNoteUsingCreateANote"/>
+                    <include name="addNoteUsingAddAPageButton"/>
                 </methods>
             </class>
         </classes>

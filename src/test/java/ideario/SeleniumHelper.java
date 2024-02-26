@@ -36,6 +36,16 @@ public class SeleniumHelper {
         return element.getText();
     }
 
+    public WebElement visibilityOfElementLocated(By locator) {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+    public void enterTextAfterWait(By locator, String text) {
+        WebElement field = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        field.clear();
+        field.sendKeys(text);
+    }
+
     public void enterText(String cssSelector, String text) {
         WebElement field = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(cssSelector)));
         field.clear();
