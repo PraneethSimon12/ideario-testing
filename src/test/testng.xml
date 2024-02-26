@@ -1,8 +1,8 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Authentication Suite">
+<suite name="Ideario Suite">
     <parameter name="browser" value="firefox" />
     <parameter name="url" value="http://localhost:3000" />
-    <test name="GetStartedTests">
+    <!-- <test name="GetStartedTests">
         <groups>
             <run>
                 <include name="GetStartedTests" />
@@ -39,6 +39,16 @@
         </groups>
         <classes>
             <class name="ideario.AuthenticationTest" />
+        </classes>
+    </test> -->
+    <test name="ModeToggleTest">
+        <classes>
+            <class name="ideario.ModeToggleTest" >
+                <methods>
+                    <include name="checkIfToggleMenuIsDisplayed" />
+                    <include name="checkLightDarkModeButton"/>
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>
