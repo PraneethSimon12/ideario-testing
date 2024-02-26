@@ -1,0 +1,44 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Authentication Suite">
+    <parameter name="browser" value="firefox" />
+    <parameter name="url" value="http://localhost:3000" />
+    <test name="GetStartedTests">
+        <groups>
+            <run>
+                <include name="GetStartedTests" />
+            </run>
+        </groups>
+        <classes>
+            <class name="ideario.AuthenticationTest" />
+        </classes>
+    </test>
+    <test name="SignUpTests">
+        <parameter name="firstName" value="test"/>
+        <parameter name="lastName" value="user"/>
+        <parameter name="username" value="testuser"/>
+        <parameter name="password" value="testpass8765"/>
+        <parameter name="existingUsername" value="testuser122"/>
+        <groups>
+            <run>
+                <include name="SignUpTests" />
+            </run>
+        </groups>
+        <classes>
+            <class name="ideario.AuthenticationTest" />
+        </classes>
+    </test>
+    <test name="LoginTests">
+        <parameter name="username" value="testuser"/>
+        <parameter name="password" value="testpass8765"/>
+        <parameter name="invalidUsername" value="somethinginvalid"/>
+        <parameter name="invalidPassword" value="testpass122"/>
+        <groups>
+            <run>
+                <include name="LoginTests" />
+            </run>
+        </groups>
+        <classes>
+            <class name="ideario.AuthenticationTest" />
+        </classes>
+    </test>
+</suite>
