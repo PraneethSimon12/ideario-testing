@@ -70,24 +70,31 @@ public class AuthenticationTest extends BaseTestClass{
         softAssert.assertAll();
     }
 
-    @Test(groups = "SignUpTests", dependsOnMethods = "verifySignUpMenuOpening")
-    public void verifyCommonPasswordCasesSignUp() throws InterruptedException {
+    @DataProvider(name="commonPasswordsUserData")
+    public Object[][] createUserData() {
+        return new Object[][] {
+            { "John", "Doe", "johnDoe", "password" },
+            { "Jane", "Doe", "janeDoe", "Password" },
+            { "Jim", "Beam", "jimBeam", "PASSWORD" },
+            { "Jack", "Daniels", "jackDaniels", "12345678" },
+            { "Johnny", "Walker", "johnnyWalker", "abcdefgh" }
+        };
+    }
 
-        logger.info("Checking common cases for Sign Up.");
+    @Test(groups = "SignUpTests", dependsOnMethods = "verifySignUpMenuOpening", dataProvider = "commonPasswordsUserData")
+    public void verifyCommonPasswordCasesSignUp(String firstName, String lastName, String username, String password) throws InterruptedException {
 
-        helper.enterUserFields("John", "Doe", "username", "");
+        logger.info("Starting Sign Up test case for user: " + username);
 
-        String[] passwords = { "password", "Password", "PASSWORD", "12345678", "abcdefgh" };
 
-        for (String password : passwords) {
-            logger.info("Checking password: " + password);
-            helper.enterText("input[name='password']", password);
-            helper.clickButton("button[data-localization-key='formButtonPrimary']");
-            Thread.sleep(2000);
-            softAssert.assertEquals(helper.getElementText(By.cssSelector(".cl-formFieldErrorText")),
-                    "This password has been found as part of a breach and can not be used, please try another password instead.",
-                    "Password validation message is not displayed for password: " + password);
-        }
+        logger.info("Checking password: " + password);
+        helper.enterUserFields(firstName, lastName, username, password);
+        helper.clickButton("button[data-localization-key='formButtonPrimary']");
+        Thread.sleep(2000);
+        softAssert.assertEquals(helper.getElementText(By.cssSelector(".cl-formFieldErrorText")),
+                "This password has been found as part of a breach and can not be used, please try another password instead.",
+                "Password validation message is not displayed for password: " + password);
+        
         softAssert.assertAll();
     }
 

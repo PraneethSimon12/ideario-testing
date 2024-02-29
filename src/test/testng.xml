@@ -15,7 +15,7 @@
     <test name="SignUpTests">
         <parameter name="firstName" value="test" />
         <parameter name="lastName" value="user" />
-        <parameter name="username" value="testuserabc" />
+        <parameter name="username" value="testusernew1" />
         <parameter name="password" value="testpass8765" />
         <parameter name="existingUsername" value="testuser122" />
         <groups>
@@ -28,7 +28,7 @@
         </classes>
     </test>
     <test name="LoginTests">
-        <parameter name="username" value="testuserabc" />
+        <parameter name="username" value="testusernew1" />
         <parameter name="password" value="testpass8765" />
         <parameter name="invalidUsername" value="somethinginvalid" />
         <parameter name="invalidPassword" value="testpass122" />
