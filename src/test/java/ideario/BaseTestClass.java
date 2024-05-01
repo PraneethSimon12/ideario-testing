@@ -3,6 +3,7 @@ package ideario;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterClass;
@@ -21,6 +22,7 @@ public class BaseTestClass {
     private Duration timeout = Duration.ofSeconds(10);
     protected SoftAssert softAssert;
     protected org.slf4j.Logger logger;
+    protected Actions actions;
 
     @Parameters({"browser", "url"})
     @BeforeClass(alwaysRun = true)
@@ -46,6 +48,7 @@ public class BaseTestClass {
         wait = new WebDriverWait(driver, timeout);
         helper = new SeleniumHelper(driver, wait);
         softAssert = new SoftAssert();
+        actions = new Actions(driver);
     }
 
     @AfterClass(alwaysRun = true)

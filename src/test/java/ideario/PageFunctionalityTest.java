@@ -1,14 +1,14 @@
 package ideario;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.*;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.interactions.Actions;
 
 public class PageFunctionalityTest extends BaseTestClass {
 
@@ -69,12 +69,55 @@ public class PageFunctionalityTest extends BaseTestClass {
 
         Integer newCount = getCountOfDocuments(By.xpath("//*[@aria-label='Document-item-listicle']"));
 
-        softAssert.assertEquals(newCount, count + 1, "Note is not added.");
+        softAssert.assertEquals(newCount.intValue(), count + 1, "Note is not added.");
     }
 
     @Test(groups = "PageFunctionalityTests", dependsOnMethods = "addPage")
-    public void deleteTopMostPage() throws InterruptedException {
-        logger.info("Deleting top most page.");
+    void renameNote() throws InterruptedException{
+        logger.info("Renaming the note.");
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(., 'Untitled')]"))).click();   
+
+        Thread.sleep(2000);
+
+        driver.findElement(By.cssSelector("input[value='Untitled']")).sendKeys("New Note");
+
+        actions.sendKeys(Keys.ENTER).perform();
+    }
+
+    @Test(groups = "PageFunctionalityTests", dependsOnMethods = "renameNote")
+    public void checkRename() {
+        logger.info("Checking if note is renamed.");
+
+        String title = wait
+                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'New Note')]")))
+                .getText();
+
+        softAssert.assertEquals(title, "New Note", "Note is not renamed.");
+    }
+
+    @Parameters("searchText")
+    @Test(groups = "PageFunctionalityTests", dependsOnMethods = "checkRename")
+    void checkSearch(String searchText) {
+
+        logger.info("Checking search functionality.");
+
+        actions.keyDown(Keys.CONTROL).sendKeys("k").keyUp(Keys.CONTROL).perform();
+
+        driver.findElement(By.ByTagName.tagName("input")).sendKeys(searchText);
+
+
+        var option = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[data-selected='true']")));
+        option.click();
+
+        var searchTextHeader = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), '" + searchText + "')]")));
+        
+        softAssert.assertTrue(searchTextHeader.isDisplayed(), "Search is not working.");
+    }
+
+    @Test(groups = "PageFunctionalityTests", dependsOnMethods = "checkSearch")
+    public void deletePage() throws InterruptedException {
+        logger.info("Deleting the note.");
 
         Thread.sleep(2000);
 
@@ -105,31 +148,44 @@ public class PageFunctionalityTest extends BaseTestClass {
         logger.info("Verifying if top most page is deleted.");
 
 
-        Thread.sleep(2000);
+        Thread.sleep(4000);
         var newCount = getCountOfDocuments(By.xpath("//*[@aria-label='Document-item-listicle']"));
 
-        softAssert.assertEquals(newCount, count - 1, "Top most page is not deleted.");
+        softAssert.assertEquals(newCount.intValue(), count - 1, "Note is not deleted successfully.");
 
         softAssert.assertAll();
     }
 
-    @Parameters("searchText")
-    @Test(groups = "PageFunctionalityTests", dependsOnMethods = "deleteTopMostPage")
-    void checkSearch(String searchText) {
+    @Test(groups = "PageFunctionalityTests", dependsOnMethods = "deletePage")
+    public void publishNote() throws InterruptedException{
 
-        logger.info("Checking search functionality.");
+        checkSearch("New Note");
 
-        Actions actions = new Actions(driver);
-        actions.keyDown(Keys.CONTROL).sendKeys("k").keyUp(Keys.CONTROL).perform();
+        logger.info("Publishing the note.");
 
-        driver.findElement(By.ByTagName.tagName("input")).sendKeys(searchText);
+        driver.findElement(By.xpath("//button[contains(text(), 'Publish')]")).click();
 
+        driver.findElement(By.xpath("//button[contains(@class, 'inline-flex') and contains(@class, 'bg-primary') and contains(text(), 'Publish')]")).click();
 
-        var option = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[data-selected='true']")));
-        option.click();
-
-        var searchTextHeader = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), '" + searchText + "')]")));
+        var publishedUrl = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[contains(@value, 'localhost:3000/preview') and contains(@class, 'flex-1') and @disabled]"))).getAttribute("value");
         
-        softAssert.assertTrue(searchTextHeader.isDisplayed(), "Search is not working.");
+        logger.info("Published URL: " + publishedUrl);
+        
+        actions.sendKeys(Keys.ESCAPE).perform();
+
+         ((JavascriptExecutor)driver).executeScript("window.open()");
+        ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+
+        driver.switchTo().window(tabs.get(1));
+        driver.get(publishedUrl);
+
+        var title = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'New Note')]")));
+        softAssert.assertTrue(title.isDisplayed(), "Note is not published successfully.");
+        
+        Thread.sleep(2000);
+        driver.close();
+        driver.switchTo().window(tabs.get(0));
+
+        softAssert.assertAll();
     }
 }

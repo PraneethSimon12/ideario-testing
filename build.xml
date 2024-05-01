@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="TestNG-Report" default="generate-report" basedir=".">
+    <property name="target" value="./target"/>
+    <property name="testng.report.dir" value="${target}/surefire-reports"/>
+    <property name="testng.output.dir" value="${target}/testng-reportsssss"/>
+
+    <target name="generate-report">
+        <mkdir dir="${testng.output.dir}"/>
+        <junitreport todir="${testng.output.dir}">
+            <fileset dir="${testng.report.dir}">
+                <include name="*.xml"/>
+            </fileset>
+            <report format="frames" todir="${testng.output.dir}"/>
+        </junitreport>
+    </target>
+</project>

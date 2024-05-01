@@ -128,13 +128,13 @@ public class AuthenticationTest extends BaseTestClass{
     @Parameters("existingUsername")
     public void checkForUsedUsernameCase(String existingUsername) {
 
-        logger.info("Checking for used username case.");
+        logger.info("Checking for used username case: " + existingUsername);
 
         helper.enterUserFields("John", "Doe", existingUsername, helper.generateDummyPassword(10));
         helper.clickButton("button[data-localization-key='formButtonPrimary']");
 
         softAssert.assertEquals(helper.getElementText(By.cssSelector(".cl-formFieldErrorText")),
-                "That username is taken. Please try another.",
+                "This username is taken. Please try another.",
                 "Username validation message is not displayed for used username.");
         softAssert.assertAll();
     }
@@ -192,6 +192,7 @@ public class AuthenticationTest extends BaseTestClass{
             softAssert.assertAll();
     }
 
+    
     @Test(groups = "LoginTests", dependsOnMethods = {"checkForInvalidPassword"})
     @Parameters({ "username", "password" })
     public void loginTest(String username, String password){
